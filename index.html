@@ -4,152 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ordered space</title>
-<meta name="description" content="colour.arnavraja.in: paintings and photographs by Arnav Raja, and the art he keeps returning to.">
+<meta name="description" content="colour.arnavraja.in, part of arnavraja.in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Same system as arnavraja.in: paper and ink, one accent per part of the domain. */
-:root {
-  --paper: #F2F3EF; --paper-2: #E8EAE4; --ink: #16211F; --muted: #56625D; --rule: #D1D6CF;
-  --accent: #5B4FC4; --mark: #F2B632;
-  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --paper: #111513; --paper-2: #181D1A; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #C4C1FF; --mark: #E0A626; color-scheme: dark; }
-}
-:root[data-theme="dark"] { --paper: #111513; --paper-2: #181D1A; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #C4C1FF; --mark: #E0A626; color-scheme: dark; }
+:root { --paper: #F2F3EF; --ink: #16211F; --muted: #56625D; --rule: #D1D6CF; --accent: #5B4FC4;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #111513; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #C4C1FF; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #111513; --ink: #E7EBE7; --muted: #9AA59F; --rule: #2B332F; --accent: #C4C1FF; color-scheme: dark; }
 * { box-sizing: border-box; }
-[hidden] { display: none !important; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 1.125rem; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-.wrap { max-width: 64rem; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.inner { padding-left: clamp(0px, 3vw, 2rem); padding-right: clamp(0px, 3vw, 2rem); }
-header.top { padding-block: 1.5rem; }
-.top .inner { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; align-items: baseline; justify-content: space-between; }
-.wordmark { font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
-.wordmark b { color: var(--accent); font-weight: 800; }
-.wordmark span { color: var(--muted); font-weight: 400; }
-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; }
-nav a { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); text-decoration: none; }
-nav a:hover, nav a[aria-current="page"] { color: var(--ink); }
-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 0.35em; }
-
-.stage { position: relative; margin-top: 0.5rem; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); }
-.stage canvas { display: block; width: 100%; height: clamp(14rem, 34vw, 22rem); touch-action: pan-y; }
-.stage .hint { position: absolute; right: 0.6rem; bottom: 0.5rem; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); background: var(--paper); padding: 0.1rem 0.4rem; margin: 0; }
-.hero { padding-block: 2rem 1rem; }
-.label { font-family: var(--mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin: 0 0 0.6rem; }
-h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.8rem, 8vw, 5.6rem); line-height: 0.92; letter-spacing: -0.04em; margin: 0; text-wrap: balance; }
-h1 em { font-style: normal; color: var(--accent); }
-.lede { max-width: 38rem; font-size: clamp(1.1rem, 2vw, 1.3rem); margin: 1.4rem 0 0; text-wrap: pretty; }
-
-.balance { display: flex; height: 4px; margin: 2.5rem 0 0; }
-.balance i { background: var(--ink); }
-.balance i + i { background: var(--mark); }
-section { padding-block: clamp(2rem, 5vw, 3.5rem); border-top: 1px solid var(--rule); }
-.balance + section { border-top: 0; }
-.sec { display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr); gap: 1rem 2.5rem; align-items: start; }
-.sec > .label { padding-top: 0.55rem; }
-.sec > * { min-width: 0; }
-h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.5rem, 3.4vw, 2.1rem); letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 0.8rem; text-wrap: balance; }
-.k { display: flex; align-items: center; gap: 0.5rem; }
-.k::before { content: ""; width: 0.6rem; height: 0.6rem; background: var(--ink); flex: none; }
-.in .k::before { background: var(--mark); }
-p { margin: 0 0 1rem; max-width: 40rem; }
-.shelf { list-style: none; margin: 1.25rem 0 0; padding: 0; border-top: 1px solid var(--ink); max-width: 40rem; }
-.shelf li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 1rem; padding-block: 0.8rem; border-bottom: 1px dashed var(--rule); align-items: baseline; }
-.shelf .t { font-family: var(--display); font-weight: 600; font-size: 1.05rem; }
-.shelf .m { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
-.empty { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); border: 1px dashed var(--rule); padding: 1rem 1.1rem; max-width: 40rem; margin: 1.25rem 0 0; }
-
-.ideas { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.ideas a { display: block; background: var(--paper); padding: 0.9rem 1rem; text-decoration: none; color: var(--ink); height: 100%; }
-.ideas a:hover { background: var(--paper-2); }
-.ideas li:last-child { grid-column: 1 / -1; }
-.ideas b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.05rem; }
-.ideas span { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
-.stages > div { border-top: 1px solid var(--ink); padding-top: 0.9rem; min-width: 0; }
-.stages h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; margin: 0 0 0.3rem; }
-.stages h3 a { color: var(--ink); text-decoration: none; }
-.stages h3 a:hover { color: var(--accent); }
-.stages p { font-size: 0.95rem; color: var(--muted); }
-.sub-h { font-family: var(--display); font-weight: 600; font-size: 1.25rem; margin: 2.25rem 0 0; }
-
-footer { border-top: 1px solid var(--rule); margin-top: 2rem; padding-block: 1.75rem 2.5rem; }
-footer .inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); }
-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
-footer a { color: var(--muted); }
-footer a:hover { color: var(--ink); }
-@media (max-width: 720px) {
-  .sec { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
-  .sec > .label { padding-top: 0; }
-  .stages { grid-template-columns: minmax(0, 1fr); }
-  .shelf li { grid-template-columns: minmax(0, 1fr); }
-}
+html, body { height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--display); -webkit-font-smoothing: antialiased;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { width: 100%; max-width: 60rem; margin: 0 auto; padding-inline: clamp(0px, 3vw, 2rem); }
+.label { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); margin: 0 0 1rem; }
+.label b { color: var(--accent); font-weight: 500; }
+h1 { font-weight: 800; font-size: clamp(3rem, 10vw, 7rem); line-height: 0.9; letter-spacing: -0.045em; margin: 0; }
+.home { display: inline-block; margin-top: 2.25rem; font-family: var(--mono); font-size: 0.9rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 0.15rem; }
+.home:hover { color: var(--accent); border-bottom-color: var(--accent); }
+.home:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top"><div class="inner"><a class="wordmark" href="https://colour.arnavraja.in"><b>colour</b><span>.arnavraja.in</span></a><nav aria-label="Parts of arnavraja.in"><ul><li><a href="https://arnavraja.in">home</a></li><li><a href="https://mind.arnavraja.in">mind</a></li><li><a href="https://sound.arnavraja.in">sound</a></li><li><a href="https://colour.arnavraja.in" aria-current="page">colour</a></li></ul></nav></div></header>
 <main>
-<div class="inner"><div class="stage" aria-hidden="true"><canvas id="motif"></canvas><p class="hint">move across: you claim the space nearest to you</p></div><div class="hero"><p class="label">colour.arnavraja.in &middot; Visual art</p><h1>Ordered space</h1><p class="lede">Art is pattern you take in all at once: where the eye wanders, and what it lingers on. Mostly I am making here, and now and then I pause to look at the work of others.</p></div></div><div class="inner"><div class="balance" aria-hidden="true"><i style="flex:2"></i><i style="flex:1"></i></div></div><section class="out"><div class="inner sec"><p class="label k">Made, most of the time</p><div><h2>Paintings and photographs</h2><p>My own work, with the date, the medium, and a line on what I was trying to do.</p><p class="empty">The first works are being photographed and added.</p></div></div></section><section class="in"><div class="inner sec"><p class="label k">Seen, less often</p><div><h2>Notes on art</h2><p>Now and then, a note on an artist, an exhibition or an image I keep returning to.</p><p class="empty">No notes yet.</p></div></div></section>
+  <p class="label"><b>colour</b>.arnavraja.in</p>
+  <h1>Ordered space</h1>
+  <a class="home" href="https://arnavraja.in">arnavraja.in</a>
 </main>
-<footer><div class="inner"><span>&copy; <span class="yr">2026</span> Arnav Raja &middot; colour.arnavraja.in</span><ul><li><a href="https://arnavraja.in">arnavraja.in</a></li><li><a href="https://mind.arnavraja.in">mind</a></li><li><a href="https://sound.arnavraja.in">sound</a></li></ul></div></footer>
-</div>
-<script>
-
-function motif(draw, opts) {
-  var cv = document.getElementById('motif'); if (!cv || !cv.getContext) return;
-  var ctx = cv.getContext('2d'), W = 0, H = 0, P = null, raf = 0, visible = true, t0 = performance.now();
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var root = document.documentElement;
-  function col(n) { return getComputedStyle(root).getPropertyValue(n).trim(); }
-  function size() {
-    var r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2);
-    W = r.width; H = r.height; cv.width = Math.round(W * d); cv.height = Math.round(H * d); ctx.setTransform(d, 0, 0, d, 0, 0);
-    if (opts && opts.resize) opts.resize(W, H); frame();
-  }
-  function frame(now) {
-    raf = 0;
-    ctx.clearRect(0, 0, W, H);
-    var more = draw(ctx, W, H, P, ((now || performance.now()) - t0) / 1000, { ink: col('--ink'), muted: col('--muted'), rule: col('--rule'), accent: col('--accent'), paper: col('--paper'), mark: col('--mark') }, reduce);
-    if ((more || (opts && opts.animate && !reduce)) && visible) raf = requestAnimationFrame(frame);
-  }
-  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
-  cv.addEventListener('pointermove', function (e) { var r = cv.getBoundingClientRect(); P = { x: e.clientX - r.left, y: e.clientY - r.top }; kick(); });
-  cv.addEventListener('pointerdown', function (e) { var r = cv.getBoundingClientRect(); P = { x: e.clientX - r.left, y: e.clientY - r.top }; kick(); });
-  cv.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { P = null; kick(); } });
-  if (window.IntersectionObserver) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) kick(); }).observe(cv);
-  if (window.ResizeObserver) new ResizeObserver(size).observe(cv); else window.addEventListener('resize', size);
-  if (window.matchMedia) { var mq = matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', kick); }
-  size();
-}
-function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
-
-(function () {
-  var palette = ['#93AE9B', '#F2B632', '#3337A8', '#B9BCF0', '#1F6F78', '#E8EAE4', '#5B4FC4', '#C9D8CC', '#8A5A00', '#2F3A36', '#D7DAF7'];
-  var r = rng(5), seeds = []; for (var i = 0; i < 11; i++) seeds.push([r(), r(), palette[i % palette.length], r() * 6.28]);
-  motif(function (g, W, H, P, t, C, reduce) {
-    var cs = 4, s = seeds.map(function (q) { var a = reduce ? 0 : t * 0.12 + q[3]; return [q[0] * W + Math.cos(a) * 12, q[1] * H + Math.sin(a) * 9, q[2]]; });
-    if (P) s.push([P.x, P.y, C.ink]);
-    for (var y = 0; y < H; y += cs) for (var x = 0; x < W; x += cs) {
-      var best = 0, bd = 1e12, second = 1e12;
-      for (var i = 0; i < s.length; i++) { var dx = s[i][0] - x, dy = s[i][1] - y, d = dx * dx + dy * dy; if (d < bd) { second = bd; bd = d; best = i; } else if (d < second) second = d; }
-      g.fillStyle = Math.sqrt(second) - Math.sqrt(bd) < cs * 0.9 ? C.paper : s[best][2];
-      g.fillRect(x, y, cs, cs);
-    }
-    s.forEach(function (q, i) { g.fillStyle = C.paper; g.beginPath(); g.arc(q[0], q[1], 3, 0, 7); g.fill(); });
-    return false;
-  }, { animate: true });
-})();
-
-document.querySelectorAll(".yr").forEach(function(e){e.textContent=new Date().getFullYear();});
-</script>
 </body>
 </html>
